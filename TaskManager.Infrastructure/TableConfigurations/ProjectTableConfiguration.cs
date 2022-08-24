@@ -18,12 +18,9 @@ public class ProjectTableConfiguration : IEntityTypeConfiguration<Project>
         builder.HasMany(p => p.Tasks)
             .WithOne(t => t.Project)
             .HasForeignKey(t => t.ProjectId);
-
-        builder.Property(p => p.UserId)
-            .HasColumnType("varchar(max)");
         
-        builder.HasOne(p => p.ApplicationUser)
-            .WithOne().HasForeignKey<Project>(p => p.UserId);
+        builder.HasOne(p => p.ProjectManager)
+            .WithOne().HasForeignKey<Project>();
 
         builder.ToTable("Projects");
     }

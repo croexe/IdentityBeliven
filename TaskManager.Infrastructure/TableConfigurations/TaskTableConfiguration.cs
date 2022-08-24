@@ -21,12 +21,9 @@ public class TaskTableConfiguration : IEntityTypeConfiguration<Domain.Models.Tas
         builder.Property(t => t.StateId).IsRequired();
 
         builder.Property(t => t.PriorityId).IsRequired();
-
-        builder.Property(t => t.UserId)
-            .HasColumnType("varchar(max)");
         
-        builder.HasOne(t => t.ApplicationUser)
-            .WithOne().HasForeignKey<Domain.Models.Task>(t => t.UserId);
+        builder.HasOne(t => t.Developer)
+            .WithOne().HasForeignKey<Domain.Models.Task>();
 
         builder.ToTable("Tasks");
     }
