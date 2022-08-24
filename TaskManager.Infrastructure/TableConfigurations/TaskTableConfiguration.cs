@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TaskManager.Domain.Models;
 
 namespace TaskManager.Infrastructure.TableConfigurations;
 
@@ -21,9 +22,11 @@ public class TaskTableConfiguration : IEntityTypeConfiguration<Domain.Models.Tas
 
         builder.Property(t => t.PriorityId).IsRequired();
 
-        builder.Property(t => t.AspNetUserId);
-
-        builder.HasOne(t => t.IdentityUser).WithOne()
+        builder.Property(t => t.UserId)
+            .HasColumnType("varchar(max)");
+        
+        builder.HasOne(t => t.ApplicationUser)
+            .WithOne().HasForeignKey<Domain.Models.Task>(t => t.UserId);
 
         builder.ToTable("Tasks");
     }
