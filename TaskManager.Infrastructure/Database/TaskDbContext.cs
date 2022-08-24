@@ -10,7 +10,7 @@ using TaskManager.Domain.Models;
 
 namespace TaskManager.Infrastructure.Database;
 
-public class TaskDbContext : IdentityDbContext<ApplicationUser>
+public class TaskDbContext : IdentityDbContext<IdentityUser>
 {
     public TaskDbContext(DbContextOptions<TaskDbContext> options) : base(options)
     {
