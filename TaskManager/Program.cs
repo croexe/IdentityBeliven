@@ -56,50 +56,50 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
-using(var serviceScope = app.Services.CreateScope())
-{
-    var service = serviceScope.ServiceProvider;
+//using(var serviceScope = app.Services.CreateScope())
+//{
+//    var service = serviceScope.ServiceProvider;
 
-    await CreateUser(service);
-}
+//    await CreateUser(service);
+//}
 
-async Task CreateUser(IServiceProvider service)
-{
-    var RoleManager = service.GetRequiredService<RoleManager<IdentityRole>>();
-    var UserManager = service.GetRequiredService<UserManager<IdentityUser>>();
+//async Task CreateUser(IServiceProvider service)
+//{
+//    var RoleManager = service.GetRequiredService<RoleManager<IdentityRole>>();
+//    var UserManager = service.GetRequiredService<UserManager<IdentityUser>>();
 
-    var _user = await UserManager.FindByEmailAsync("irinejs@gmail.com");
+//    var _user = await UserManager.FindByEmailAsync("irinejs@gmail.com");
 
-    bool hasAdminRole = await RoleManager.RoleExistsAsync("ProjectManager");
+//    bool hasAdminRole = await RoleManager.RoleExistsAsync("ProjectManager");
 
-    IdentityResult roleResult;
+//    IdentityResult roleResult;
 
-    if (!hasAdminRole)
-    {
-        roleResult = await RoleManager.CreateAsync(new IdentityRole("ProjectManager"));
-    }
+//    if (!hasAdminRole)
+//    {
+//        roleResult = await RoleManager.CreateAsync(new IdentityRole("ProjectManager"));
+//    }
 
-    string[] roleNames = { "Admin", "ProjectManager", "Financije", "Urbanizam", "Gospodarstvo", "SuperUser" };
+//    string[] roleNames = { "Admin", "ProjectManager", "Financije", "Urbanizam", "Gospodarstvo", "SuperUser" };
 
-    foreach (var roleName in roleNames)
-    {
-        var roleExist = await RoleManager.RoleExistsAsync(roleName);
-        if (!roleExist)
-        {
-            //create the roles and seed them to the database
-            roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
-        }
-    }
+//    foreach (var roleName in roleNames)
+//    {
+//        var roleExist = await RoleManager.RoleExistsAsync(roleName);
+//        if (!roleExist)
+//        {
+//            //create the roles and seed them to the database
+//            roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+//        }
+//    }
 
-    if (_user == null)
-    {
-        var res = await UserManager.CreateAsync(new IdentityUser("irinejs@gmail.com") { Email = "irinejs@gmail.com" }, "/3366Ttxxx@");
-        _user = await UserManager.FindByEmailAsync("irinejs@gmail.com");
-        await UserManager.AddToRoleAsync(_user, "ProjectManager");
-    }
+//    if (_user == null)
+//    {
+//        var res = await UserManager.CreateAsync(new IdentityUser("irinejs@gmail.com") { Email = "irinejs@gmail.com" }, "/3366Ttxxx@");
+//        _user = await UserManager.FindByEmailAsync("irinejs@gmail.com");
+//        await UserManager.AddToRoleAsync(_user, "ProjectManager");
+//    }
 
-    var myRole = RoleManager.FindByNameAsync("ProjectManager");
-}
+//    var myRole = RoleManager.FindByNameAsync("ProjectManager");
+//}
 
 
 // Configure the HTTP request pipeline.
