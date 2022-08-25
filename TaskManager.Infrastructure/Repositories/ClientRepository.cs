@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TaskManager.Domain.DTOs;
+using TaskManager.Domain.Entities;
 using TaskManager.Domain.Interfaces;
-using TaskManager.Domain.Models;
 using TaskManager.Infrastructure.Database;
 
 namespace TaskManager.Infrastructure.Repositories;

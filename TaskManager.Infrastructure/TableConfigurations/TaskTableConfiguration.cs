@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TaskManager.Domain.Models;
 
 namespace TaskManager.Infrastructure.TableConfigurations;
 
-public class TaskTableConfiguration : IEntityTypeConfiguration<Domain.Models.Task>
+public class TaskTableConfiguration : IEntityTypeConfiguration<Domain.Entities.Task>
 {
-    public void Configure(EntityTypeBuilder<Domain.Models.Task> builder)
+    public void Configure(EntityTypeBuilder<Domain.Entities.Task> builder)
     {
         builder.HasKey(t => t.Id);
 
@@ -23,7 +22,7 @@ public class TaskTableConfiguration : IEntityTypeConfiguration<Domain.Models.Tas
         builder.Property(t => t.PriorityId).IsRequired();
         
         builder.HasOne(t => t.Developer)
-            .WithOne().HasForeignKey<Domain.Models.Task>();
+            .WithOne().HasForeignKey<Domain.Entities.Task>();
 
         builder.ToTable("Tasks");
     }

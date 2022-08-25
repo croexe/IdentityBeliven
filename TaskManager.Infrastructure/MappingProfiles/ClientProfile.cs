@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TaskManager.Domain.DTOs;
-using TaskManager.Domain.Models;
+using TaskManager.Domain.Entities;
 
 namespace TaskManager.Infrastructure.MappingProfiles;
 

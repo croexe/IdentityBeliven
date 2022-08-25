@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TaskManager.Domain.Models;
+using TaskManager.Domain.Entities;
 
 namespace TaskManager.Infrastructure.TableConfigurations;
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TaskManager.Domain.Models;
+using TaskManager.Domain.Entities;
 
 namespace TaskManager.Infrastructure.TableConfigurations;
 
@@ -13,7 +13,7 @@ public class StateTableConfiguration : IEntityTypeConfiguration<State>
         builder.Property(s => s.StateName).IsRequired()
             .HasColumnType("varchar(20)");
 
-        builder.HasOne(s => s.Task).WithOne(t => t.State).HasForeignKey<Domain.Models.Task>(t => t.StateId);
+        builder.HasOne(s => s.Task).WithOne(t => t.State).HasForeignKey<Domain.Entities.Task>(t => t.StateId);
 
         builder.ToTable("States");
     }

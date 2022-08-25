@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TaskManager.Domain.Models;
+using TaskManager.Domain.Entities;
 
 namespace TaskManager.Infrastructure.Database;
 
@@ -18,7 +18,7 @@ public class TaskDbContext : IdentityDbContext<IdentityUser>
 
     public virtual DbSet<Client> Clients { get; set; }
     public virtual DbSet<Project> Projects { get; set; }
-    public virtual DbSet<Domain.Models.Task> Tasks { get; set; }
+    public virtual DbSet<Domain.Entities.Task> Tasks { get; set; }
     public virtual DbSet<State> States { get; set; }
     public virtual DbSet<Priority> Priorities { get; set; }
 }
