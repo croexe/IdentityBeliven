@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Domain.DTOs;
+using TaskManager.Domain.Helpers;
 using TaskManager.Domain.Interfaces;
-using TaskManager.Domain.Models;
 
 namespace TaskManager.Controllers
 {
-    [Authorize(Roles = UserRoles.PROJECTMANAGER)]
+    [Authorize(Roles = UserRoles.Manager)]
     [Route("api/[controller]")]
     [ApiController]
     public class ClientController : ControllerBase
