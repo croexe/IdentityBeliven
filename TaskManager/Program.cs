@@ -55,21 +55,28 @@ builder.Services.AddAuthentication(options =>
  });
 
 var app = builder.Build();
-var RoleManager = app.Services.GetRequiredService<RoleManager<IdentityRole>>();
-var UserManager = app.Services.GetRequiredService<UserManager<IdentityUser>>();
 
-async Task CreateUser()
+using(var serviceScope = app.Services.CreateScope())
 {
+    var service = serviceScope.ServiceProvider;
+
+    await CreateUser(service);
+}
+
+async Task CreateUser(IServiceProvider service)
+{
+    var RoleManager = service.GetRequiredService<RoleManager<IdentityRole>>();
+    var UserManager = service.GetRequiredService<UserManager<IdentityUser>>();
+
     var _user = await UserManager.FindByEmailAsync("irinejs@gmail.com");
 
-    Task<bool> hasAdminRole = RoleManager.RoleExistsAsync("ProjectManager");
-    hasAdminRole.Wait();
-    Task<IdentityResult> roleResult;
+    bool hasAdminRole = await RoleManager.RoleExistsAsync("ProjectManager");
 
-    if (!hasAdminRole.Result)
+    IdentityResult roleResult;
+
+    if (!hasAdminRole)
     {
-        roleResult = RoleManager.CreateAsync(new IdentityRole("ProjectManager"));
-        roleResult.Wait();
+        roleResult = await RoleManager.CreateAsync(new IdentityRole("ProjectManager"));
     }
 
     string[] roleNames = { "Admin", "ProjectManager", "Financije", "Urbanizam", "Gospodarstvo", "SuperUser" };
@@ -79,25 +86,21 @@ async Task CreateUser()
         var roleExist = await RoleManager.RoleExistsAsync(roleName);
         if (!roleExist)
         {
-            //create the roles and seed them to the database: Question 1
-            roleResult = RoleManager.CreateAsync(new IdentityRole(roleName));
-            roleResult.Wait();
+            //create the roles and seed them to the database
+            roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
         }
     }
 
     if (_user == null)
     {
-        var res = await UserManager.CreateAsync(new IdentityUser("irinejs@gmail.com") { Email = "irinejs@gmail.com" }, "xxx@");
+        var res = await UserManager.CreateAsync(new IdentityUser("irinejs@gmail.com") { Email = "irinejs@gmail.com" }, "/3366Ttxxx@");
         _user = await UserManager.FindByEmailAsync("irinejs@gmail.com");
         await UserManager.AddToRoleAsync(_user, "ProjectManager");
     }
 
     var myRole = RoleManager.FindByNameAsync("ProjectManager");
-    Console.WriteLine(_user.Email);
-    Console.WriteLine(myRole);
 }
 
-CreateUser();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

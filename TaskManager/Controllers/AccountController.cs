@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using TaskManager.Domain.Models;
 
 namespace TaskManager.Controllers;
 
@@ -23,10 +24,12 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Login([FromBody]string userName, string password)
+    [Route("login")]
+    public async Task<IActionResult> Login([FromBody] LoginModel model)
     {
-        var user = await _userManager.FindByNameAsync(userName);
-        if(user != null && await _userManager.CheckPasswordAsync(user, password))
+        Console.WriteLine("Usao sam u login");
+        var user = await _userManager.FindByNameAsync(model.Username);
+        if(user != null && await _userManager.CheckPasswordAsync(user, model.Password))
         {
             var userRoles = await _userManager.GetRolesAsync(user);
 
