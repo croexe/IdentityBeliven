@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace TaskManager.Domain.Models
+namespace TaskManager.Domain.Models;
+
+public class LoginModel
 {
-    public class LoginModel
-    {
-        public string Username { get; set; }
-        public string Password { get; set; }
-    }
+    [Required(ErrorMessage = "User Name is required.")]
+    public string Username { get; set; }
+
+    [Required(ErrorMessage = "Password is required.")]
+    public string Password { get; set; }
 }
