@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TaskManager.Domain.DTOs;
 
-namespace TaskManager.Domain.Interfaces
+namespace TaskManager.Domain.Interfaces;
+
+public interface IProjectRepository
 {
-    internal interface IProjectRepository
-    {
-    }
+    Task<ProjectDto> AddProject(ProjectDto dto);
 }

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TaskManager.Domain.DTOs;
 
-namespace TaskManager.Domain.Interfaces
+namespace TaskManager.Domain.Interfaces;
+
+public interface ITaskRepository
 {
-    internal interface ITaskRepository
-    {
-    }
+    Task<TaskDto> AddTask(TaskDto dto);
+    Task AssignDeveloperToTask(int taskId, string developerId);
+    Task UpdateStateOfTask(int taskId, int stateId, string userId);
 }
