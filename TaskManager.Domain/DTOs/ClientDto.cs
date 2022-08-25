@@ -1,11 +1,11 @@
-﻿namespace TaskManager.Domain.DTOs
+﻿using TaskManager.Domain.Entities;
+
+namespace TaskManager.Domain.DTOs
 {
-    public sealed class ClientDto
+    public sealed class ClientDto : Entity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Sector { get; set; }
         public string Note { get; set; }
-
     }
 }

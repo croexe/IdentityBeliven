@@ -1,8 +1,9 @@
-﻿namespace TaskManager.Domain.DTOs;
+﻿using TaskManager.Domain.Entities;
 
-public sealed class ProjectDto
+namespace TaskManager.Domain.DTOs;
+
+public sealed class ProjectDto : Entity
 {
-    public int Id { get; set; }
     public string Name { get; set; }
     public int ClientId { get; set; }
 }
