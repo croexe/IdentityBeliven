@@ -242,7 +242,7 @@ namespace TaskManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clients", (string)null);
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("TaskManager.Domain.Models.Priority", b =>
@@ -259,7 +259,7 @@ namespace TaskManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Priorities", (string)null);
+                    b.ToTable("Priorities");
                 });
 
             modelBuilder.Entity("TaskManager.Domain.Models.Project", b =>
@@ -286,7 +286,7 @@ namespace TaskManager.Infrastructure.Migrations
 
                     b.HasIndex("ProjectManagerId");
 
-                    b.ToTable("Projects", (string)null);
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("TaskManager.Domain.Models.State", b =>
@@ -303,7 +303,7 @@ namespace TaskManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("States", (string)null);
+                    b.ToTable("States");
                 });
 
             modelBuilder.Entity("TaskManager.Domain.Models.Task", b =>
@@ -346,7 +346,7 @@ namespace TaskManager.Infrastructure.Migrations
                     b.HasIndex("StateId")
                         .IsUnique();
 
-                    b.ToTable("Tasks", (string)null);
+                    b.ToTable("Tasks");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
