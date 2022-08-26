@@ -17,7 +17,7 @@ namespace TaskManager.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("ProductVersion", "6.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -220,7 +220,7 @@ namespace TaskManager.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Entities.Client", b =>
+            modelBuilder.Entity("TaskManager.Domain.Models.Client", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -245,7 +245,7 @@ namespace TaskManager.Infrastructure.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Entities.Priority", b =>
+            modelBuilder.Entity("TaskManager.Domain.Models.Priority", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -262,7 +262,7 @@ namespace TaskManager.Infrastructure.Migrations
                     b.ToTable("Priorities");
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Entities.Project", b =>
+            modelBuilder.Entity("TaskManager.Domain.Models.Project", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -289,7 +289,7 @@ namespace TaskManager.Infrastructure.Migrations
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Entities.State", b =>
+            modelBuilder.Entity("TaskManager.Domain.Models.State", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -306,7 +306,7 @@ namespace TaskManager.Infrastructure.Migrations
                     b.ToTable("States");
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Entities.Task", b =>
+            modelBuilder.Entity("TaskManager.Domain.Models.Task", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -400,9 +400,9 @@ namespace TaskManager.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Entities.Project", b =>
+            modelBuilder.Entity("TaskManager.Domain.Models.Project", b =>
                 {
-                    b.HasOne("TaskManager.Domain.Entities.Client", "Client")
+                    b.HasOne("TaskManager.Domain.Models.Client", "Client")
                         .WithMany("Projects")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -417,27 +417,27 @@ namespace TaskManager.Infrastructure.Migrations
                     b.Navigation("ProjectManager");
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Entities.Task", b =>
+            modelBuilder.Entity("TaskManager.Domain.Models.Task", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Developer")
                         .WithMany()
                         .HasForeignKey("DeveloperId");
 
-                    b.HasOne("TaskManager.Domain.Entities.Priority", "Priority")
+                    b.HasOne("TaskManager.Domain.Models.Priority", "Priority")
                         .WithOne("Task")
-                        .HasForeignKey("TaskManager.Domain.Entities.Task", "PriorityId")
+                        .HasForeignKey("TaskManager.Domain.Models.Task", "PriorityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TaskManager.Domain.Entities.Project", "Project")
+                    b.HasOne("TaskManager.Domain.Models.Project", "Project")
                         .WithMany("Tasks")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TaskManager.Domain.Entities.State", "State")
+                    b.HasOne("TaskManager.Domain.Models.State", "State")
                         .WithOne("Task")
-                        .HasForeignKey("TaskManager.Domain.Entities.Task", "StateId")
+                        .HasForeignKey("TaskManager.Domain.Models.Task", "StateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -450,23 +450,23 @@ namespace TaskManager.Infrastructure.Migrations
                     b.Navigation("State");
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Entities.Client", b =>
+            modelBuilder.Entity("TaskManager.Domain.Models.Client", b =>
                 {
                     b.Navigation("Projects");
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Entities.Priority", b =>
+            modelBuilder.Entity("TaskManager.Domain.Models.Priority", b =>
                 {
                     b.Navigation("Task")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Entities.Project", b =>
+            modelBuilder.Entity("TaskManager.Domain.Models.Project", b =>
                 {
                     b.Navigation("Tasks");
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Entities.State", b =>
+            modelBuilder.Entity("TaskManager.Domain.Models.State", b =>
                 {
                     b.Navigation("Task")
                         .IsRequired();

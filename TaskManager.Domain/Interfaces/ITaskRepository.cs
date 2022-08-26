@@ -6,5 +6,5 @@ public interface ITaskRepository
 {
     Task<TaskDto> AddTask(TaskDto dto);
     Task AssignDeveloperToTask(int taskId, string developerId);
-    Task UpdateStateOfTask(int taskId, int stateId);
+    Task UpdateStateOfTask(int taskId, int stateId, string userId);
 }
