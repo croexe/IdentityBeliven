@@ -12,14 +12,14 @@ using TaskManager.Infrastructure.Database;
 namespace TaskManager.Infrastructure.Migrations
 {
     [DbContext(typeof(TaskDbContext))]
-    [Migration("20220825112402_Initial")]
-    partial class Initial
+    [Migration("20220826141142_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("ProductVersion", "6.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -222,7 +222,7 @@ namespace TaskManager.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Models.Client", b =>
+            modelBuilder.Entity("TaskManager.Domain.Entities.Client", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -247,7 +247,7 @@ namespace TaskManager.Infrastructure.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Models.Priority", b =>
+            modelBuilder.Entity("TaskManager.Domain.Entities.Priority", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -264,7 +264,7 @@ namespace TaskManager.Infrastructure.Migrations
                     b.ToTable("Priorities");
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Models.Project", b =>
+            modelBuilder.Entity("TaskManager.Domain.Entities.Project", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -291,7 +291,7 @@ namespace TaskManager.Infrastructure.Migrations
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Models.State", b =>
+            modelBuilder.Entity("TaskManager.Domain.Entities.State", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -308,7 +308,7 @@ namespace TaskManager.Infrastructure.Migrations
                     b.ToTable("States");
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Models.Task", b =>
+            modelBuilder.Entity("TaskManager.Domain.Entities.Task", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -402,9 +402,9 @@ namespace TaskManager.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Models.Project", b =>
+            modelBuilder.Entity("TaskManager.Domain.Entities.Project", b =>
                 {
-                    b.HasOne("TaskManager.Domain.Models.Client", "Client")
+                    b.HasOne("TaskManager.Domain.Entities.Client", "Client")
                         .WithMany("Projects")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -419,27 +419,27 @@ namespace TaskManager.Infrastructure.Migrations
                     b.Navigation("ProjectManager");
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Models.Task", b =>
+            modelBuilder.Entity("TaskManager.Domain.Entities.Task", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Developer")
                         .WithMany()
                         .HasForeignKey("DeveloperId");
 
-                    b.HasOne("TaskManager.Domain.Models.Priority", "Priority")
+                    b.HasOne("TaskManager.Domain.Entities.Priority", "Priority")
                         .WithOne("Task")
-                        .HasForeignKey("TaskManager.Domain.Models.Task", "PriorityId")
+                        .HasForeignKey("TaskManager.Domain.Entities.Task", "PriorityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TaskManager.Domain.Models.Project", "Project")
+                    b.HasOne("TaskManager.Domain.Entities.Project", "Project")
                         .WithMany("Tasks")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TaskManager.Domain.Models.State", "State")
+                    b.HasOne("TaskManager.Domain.Entities.State", "State")
                         .WithOne("Task")
-                        .HasForeignKey("TaskManager.Domain.Models.Task", "StateId")
+                        .HasForeignKey("TaskManager.Domain.Entities.Task", "StateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -452,23 +452,23 @@ namespace TaskManager.Infrastructure.Migrations
                     b.Navigation("State");
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Models.Client", b =>
+            modelBuilder.Entity("TaskManager.Domain.Entities.Client", b =>
                 {
                     b.Navigation("Projects");
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Models.Priority", b =>
+            modelBuilder.Entity("TaskManager.Domain.Entities.Priority", b =>
                 {
                     b.Navigation("Task")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Models.Project", b =>
+            modelBuilder.Entity("TaskManager.Domain.Entities.Project", b =>
                 {
                     b.Navigation("Tasks");
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Models.State", b =>
+            modelBuilder.Entity("TaskManager.Domain.Entities.State", b =>
                 {
                     b.Navigation("Task")
                         .IsRequired();

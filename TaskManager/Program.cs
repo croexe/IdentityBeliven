@@ -10,12 +10,8 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//// Add services to the container.
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -29,7 +25,7 @@ var jwtIssuer = builder.Configuration.GetSection("JWT:ValidIssuer").Value;
 var jwtSecret = builder.Configuration.GetSection("JWT:Secret").Value;
 
 builder.Services.AddDbContext<TaskDbContext>(options => options.UseSqlServer(connectionString));
-//builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
 builder.Services.AddIdentity<IdentityUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<TaskDbContext>()
     .AddDefaultTokenProviders();
@@ -48,59 +44,16 @@ builder.Services.AddAuthentication(options =>
      {
          ValidateIssuer = true,
          ValidateAudience = true,
+         ValidateLifetime = true,
+         ValidateIssuerSigningKey = true,
          ValidAudience = jwtAudience,
          ValidIssuer = jwtIssuer,
-         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret))
+         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
+         ClockSkew = TimeSpan.Zero
      };
  });
 
 var app = builder.Build();
-
-//using(var serviceScope = app.Services.CreateScope())
-//{
-//    var service = serviceScope.ServiceProvider;
-
-//    await CreateUser(service);
-//}
-
-//async Task CreateUser(IServiceProvider service)
-//{
-//    var RoleManager = service.GetRequiredService<RoleManager<IdentityRole>>();
-//    var UserManager = service.GetRequiredService<UserManager<IdentityUser>>();
-
-//    var _user = await UserManager.FindByEmailAsync("irinejs@gmail.com");
-
-//    bool hasAdminRole = await RoleManager.RoleExistsAsync("ProjectManager");
-
-//    IdentityResult roleResult;
-
-//    if (!hasAdminRole)
-//    {
-//        roleResult = await RoleManager.CreateAsync(new IdentityRole("ProjectManager"));
-//    }
-
-//    string[] roleNames = { "Admin", "ProjectManager", "Financije", "Urbanizam", "Gospodarstvo", "SuperUser" };
-
-//    foreach (var roleName in roleNames)
-//    {
-//        var roleExist = await RoleManager.RoleExistsAsync(roleName);
-//        if (!roleExist)
-//        {
-//            //create the roles and seed them to the database
-//            roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
-//        }
-//    }
-
-//    if (_user == null)
-//    {
-//        var res = await UserManager.CreateAsync(new IdentityUser("irinejs@gmail.com") { Email = "irinejs@gmail.com" }, "/3366Ttxxx@");
-//        _user = await UserManager.FindByEmailAsync("irinejs@gmail.com");
-//        await UserManager.AddToRoleAsync(_user, "ProjectManager");
-//    }
-
-//    var myRole = RoleManager.FindByNameAsync("ProjectManager");
-//}
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -110,7 +63,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseRouting();
-
 
 app.UseAuthentication();
 app.UseAuthorization();

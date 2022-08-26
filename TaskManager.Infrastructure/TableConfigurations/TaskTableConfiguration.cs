@@ -17,7 +17,7 @@ public class TaskTableConfiguration : IEntityTypeConfiguration<Domain.Entities.T
 
         builder.Property(t => t.ProjectId).IsRequired();
 
-        builder.Property(t => t.StateId).IsRequired();
+        builder.Property(t => t.StateId).IsRequired().HasDefaultValue(2);
 
         builder.Property(t => t.PriorityId).IsRequired();
         
