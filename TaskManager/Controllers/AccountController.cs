@@ -45,6 +45,10 @@ public class AccountController : ControllerBase
                 authClaims.Add(new Claim(ClaimTypes.Role, role));
             }
 
+            var secretKey = _configuration["JWT:Secret"];
+            var issuerConf = _configuration["JWT:ValidIssuer"];
+            var audienceConf = _configuration["JWT:ValidAudience"];
+
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 
             var token = new JwtSecurityToken(

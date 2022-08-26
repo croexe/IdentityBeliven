@@ -26,6 +26,7 @@ namespace TaskManager.Controllers
         }
 
         [HttpGet]
+        [Route("get")]
         public async Task<IActionResult> GetAll()
         {
             var b = 100;
