@@ -11,31 +11,33 @@ using TaskManager.Infrastructure.Database;
 
 namespace TaskManager.Infrastructure.Repositories;
 
-public class ClientRepository : IClientRepository, IDisposable
+public class ProjectRepository : IProjectRepository, IDisposable
 {
-    private readonly TaskDbContext _context;
     private readonly IMapper _mapper;
+    private readonly TaskDbContext _context;
 
-    public ClientRepository(TaskDbContext context, IMapper mapper)
+    public ProjectRepository(IMapper mapper, TaskDbContext context)
     {
-        _context = context;
         _mapper = mapper;
+        _context = context;
     }
-    public async Task<ClientDto> AddClient(ClientDto dto)
+
+    public async Task<ProjectDto> AddProject(ProjectDto dto)
     {
-        var client = _mapper.Map<Client>(dto);
         try
         {
-            await _context.Clients.AddAsync(client);
+            var project = _mapper.Map<Project>(dto);
+            var entry = await _context.Projects.AddAsync(project);
+            entry.Member("ProjectManagerId").CurrentValue = project.UserId;
+            
             await _context.SaveChangesAsync();
-        }
-        catch (Exception)
-        {
 
+            return dto;
+        }
+        catch (Exception ex)
+        {
             throw;
         }
-        var dtoReturn = _mapper.Map<ClientDto>(client);
-        return dtoReturn;
     }
 
     public void Dispose()
