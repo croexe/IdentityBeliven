@@ -13,10 +13,10 @@ public class ClientTableConfiguration : IEntityTypeConfiguration<Client>
         builder.Property(c => c.Name).IsRequired()
             .HasColumnType("varchar(150)");
 
-        builder.Property(c => c.Sector)
+        builder.Property(c => c.Sector).IsRequired(false)
             .HasColumnType("varchar(80)");
 
-        builder.Property(c => c.Note)
+        builder.Property(c => c.Note).IsRequired(false)
             .HasColumnType("varchar(250)");
 
         builder.HasMany(c => c.Projects)
