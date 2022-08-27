@@ -10,18 +10,16 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//// Add services to the container.
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<TaskDbContext>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
-builder.Services.AddAutoMapper(typeof(ClientProfile));
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+builder.Services.AddAutoMapper(typeof(EntitiesProfile));
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
 var jwtAudience = builder.Configuration.GetSection("JWT:ValidAudience").Value;
@@ -29,7 +27,7 @@ var jwtIssuer = builder.Configuration.GetSection("JWT:ValidIssuer").Value;
 var jwtSecret = builder.Configuration.GetSection("JWT:Secret").Value;
 
 builder.Services.AddDbContext<TaskDbContext>(options => options.UseSqlServer(connectionString));
-//builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
 builder.Services.AddIdentity<IdentityUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<TaskDbContext>()
     .AddDefaultTokenProviders();
@@ -63,7 +61,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseRouting();
-
 
 app.UseAuthentication();
 app.UseAuthorization();
