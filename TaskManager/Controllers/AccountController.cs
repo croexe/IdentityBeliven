@@ -28,7 +28,6 @@ public class AccountController : ControllerBase
     [Route("login")]
     public async Task<IActionResult> Login([FromBody] LoginModel model)
     {
-        Console.WriteLine("Usao sam u login");
         var user = await _userManager.FindByNameAsync(model.Username);
         if(user != null && await _userManager.CheckPasswordAsync(user, model.Password))
         {
@@ -102,6 +101,6 @@ public class AccountController : ControllerBase
                 await _userManager.AddToRoleAsync(user, UserRoles.Developer);
         }
 
-        return Ok(new { Status = "Success", Message = UserMessages.USER_CREATED_SUCCESSFULY + $"{model.Username}" });
+        return Ok(new { Status = "Success", Message = UserMessages.USER_CREATED_SUCCESSFULY + $" {model.Username}" });
     }
 }
