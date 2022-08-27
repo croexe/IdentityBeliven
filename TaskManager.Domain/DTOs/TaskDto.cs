@@ -9,4 +9,5 @@ public sealed class TaskDto : Entity
     public int ProjectId { get; set; }
     public int PriorityId { get; set; }
     public int StateId { get; set; }
+    public string DeveloperId { get; set; }
 }
