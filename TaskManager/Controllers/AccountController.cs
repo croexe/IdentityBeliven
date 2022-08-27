@@ -49,11 +49,11 @@ public class AccountController : ControllerBase
             var issuerConf = _configuration["JWT:ValidIssuer"];
             var audienceConf = _configuration["JWT:ValidAudience"];
 
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
             var token = new JwtSecurityToken(
-                    issuer: _configuration["JWT:ValidIssuer"],
-                    audience: _configuration["JWT:ValidAudience"],
+                    issuer: issuerConf,
+                    audience: audienceConf,
                     expires: DateTime.Now.AddHours(1),
                     claims: authClaims,
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
@@ -92,9 +92,16 @@ public class AccountController : ControllerBase
 
         if (await _roleManager.RoleExistsAsync(UserRoles.Manager))
         {
-            await _userManager.AddToRoleAsync(user, UserRoles.Manager);
+            if(model.Usertype == UserRoles.Manager)
+                await _userManager.AddToRoleAsync(user, UserRoles.Manager);
         }
 
-        return Ok(new { Status = "Success", Message = UserMessages.USER_CREATED_SUCCESSFULY });
+        if(await _roleManager.RoleExistsAsync(UserRoles.Developer))
+        {
+            if (model.Usertype == UserRoles.Developer)
+                await _userManager.AddToRoleAsync(user, UserRoles.Developer);
+        }
+
+        return Ok(new { Status = "Success", Message = UserMessages.USER_CREATED_SUCCESSFULY + $"{model.Username}" });
     }
 }

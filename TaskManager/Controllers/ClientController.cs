@@ -19,7 +19,8 @@ namespace TaskManager.Controllers
             repository = _repository;
         }
         [HttpPost]
-        public Task<ClientDto> Add(ClientDto dto)
+        [Route("create")]
+        public Task<ClientDto> Add([FromBody]ClientDto dto)
         {
             var kol = repository.AddClient(dto);
             return kol;
