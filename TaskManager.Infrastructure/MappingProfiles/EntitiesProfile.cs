@@ -42,7 +42,7 @@ public class EntitiesProfile : Profile
             .ForMember(dest => dest.ClientId,
             from => from.MapFrom(src => src.ClientId))
             .AfterMap((src, dest) =>  dest.UserId = src.ProjectManagerId);
-        /*
+        
         CreateMap<Domain.Entities.Task, TaskDto>()
             .ForMember(dest => dest.Id,
             from => from.MapFrom(src => src.Id))
@@ -56,8 +56,7 @@ public class EntitiesProfile : Profile
             from => from.MapFrom(src => src.PriorityId))
             .ForMember(dest => dest.ProjectId,
             from => from.MapFrom(src => src.ProjectId))
-            .ForMember(dest => dest.DeveloperId,
-            from => from.MapFrom(src => src.Developer.Id));
+            .AfterMap((src, dest) => dest.DeveloperId = src.UserId);
 
         CreateMap<TaskDto, Domain.Entities.Task>()
             .ForMember(dest => dest.Title,
@@ -70,8 +69,7 @@ public class EntitiesProfile : Profile
             from => from.MapFrom(src => src.PriorityId))
             .ForMember(dest => dest.ProjectId,
             from => from.MapFrom(src => src.ProjectId))
-            .ForMember(dest => dest.Developer.Id,
-            from => from.MapFrom(src => src.DeveloperId));
-        */
+            .AfterMap((src, dest) => dest.UserId = src.DeveloperId);
+        
     }
 }
