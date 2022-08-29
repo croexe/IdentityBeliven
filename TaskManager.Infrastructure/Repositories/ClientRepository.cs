@@ -16,21 +16,22 @@ public class ClientRepository : IClientRepository, IDisposable
         _context = context;
         _mapper = mapper;
     }
-    public async Task<ClientDto> AddClient(ClientDto dto)
+    public async Task<ClientDto> AddAsyncClient(ClientDto dto)
     {
         var client = _mapper.Map<Client>(dto);
         try
         {
             await _context.Clients.AddAsync(client);
             await _context.SaveChangesAsync();
+
+            var dtoReturn = _mapper.Map<ClientDto>(client);
+            return dtoReturn;
         }
         catch (Exception)
         {
 
             throw;
         }
-        var dtoReturn = _mapper.Map<ClientDto>(client);
-        return dtoReturn;
     }
 
     public void Dispose()

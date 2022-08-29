@@ -17,17 +17,17 @@ public class ProjectRepository : IProjectRepository, IDisposable
         _context = context;
     }
 
-    public async Task<ProjectDto> AddProject(ProjectDto dto)
+    public async Task<ProjectDto> AddAsyncProject(ProjectDto dto)
     {
         try
         {
             var project = _mapper.Map<Project>(dto);
             var entry = await _context.Projects.AddAsync(project);
-            entry.Member("ProjectManagerId").CurrentValue = project.UserId;
+            _context.Entry(entry).Property("ProjectManagerId").CurrentValue = project.UserId;
             
             await _context.SaveChangesAsync();
-
-            return dto;
+            var projectDto = _mapper.Map<ProjectDto>(project);
+            return projectDto;
         }
         catch (Exception ex)
         {

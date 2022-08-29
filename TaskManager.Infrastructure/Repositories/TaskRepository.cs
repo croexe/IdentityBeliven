@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using TaskManager.Domain.DTOs;
 using TaskManager.Domain.Interfaces;
 using TaskManager.Infrastructure.Database;
@@ -17,15 +18,25 @@ public class TaskRepository : ITaskRepository, IDisposable
         _context = context;
     }
 
-    public async Task<TaskDto> AddTask(TaskDto dto)
+    public async Task<TaskDto> AddTaskAsync(TaskDto dto)
     {
         try
         {
             var task = _mapper.Map<Domain.Entities.Task>(dto);
-            await _context.Tasks.AddAsync(task);
+            var entry = await _context.Tasks.AddAsync(task);
+            
+            var developerId = task.UserId.Any();
+
+            if (developerId) 
+            {
+                entry.Member("DeveloperId").CurrentValue = task.UserId;
+                entry.State = EntityState.Added;
+            }
+
             await _context.SaveChangesAsync();
 
-            return dto;
+            var taskDto = _mapper.Map<TaskDto>(task);
+            return taskDto;
         }
         catch (Exception)
         { 
@@ -33,15 +44,16 @@ public class TaskRepository : ITaskRepository, IDisposable
         }
     }
 
-    public async Task<DeveloperToTaskDto> AssignDeveloperToTask(DeveloperToTaskDto developerToTaskDto)
+    public async Task<TaskDto> AssignDeveloperToTaskAsync(DeveloperToTaskDto developerToTaskDto)
     {
         try
         {
-            var task = await _context.Tasks.Where(t => t.Id == developerToTaskDto.TaskId).SingleAsync();
-            task.Developer.Id = developerToTaskDto.DeveloperId;
+            var entry = await _context.Tasks.Where(t => t.Id == developerToTaskDto.TaskId).FirstAsync();
+            _context.Entry(entry).Property("DeveloperId").CurrentValue = developerToTaskDto.DeveloperId;
             await _context.SaveChangesAsync();
 
-            return developerToTaskDto;
+            var taskDto = _mapper.Map<TaskDto>(entry);
+            return taskDto;
         }
         catch (Exception)
         {
@@ -50,7 +62,7 @@ public class TaskRepository : ITaskRepository, IDisposable
         }
     }
 
-    public async Task<TaskStateDto> UpdateStateOfTask(TaskStateDto taskStateDto)
+    public async Task<TaskDto> UpdateStateOfTaskAsync(TaskStateDto taskStateDto)
     {
         try
         {
@@ -58,7 +70,8 @@ public class TaskRepository : ITaskRepository, IDisposable
             task.StateId = taskStateDto.StateId;
             await _context.SaveChangesAsync();
 
-            return taskStateDto;
+            var taskDto = _mapper.Map<TaskDto>(task);
+            return taskDto;
         }
         catch (Exception)
         {
