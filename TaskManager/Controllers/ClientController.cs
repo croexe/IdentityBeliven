@@ -17,12 +17,16 @@ namespace TaskManager.Controllers
         {
             repository = _repository;
         }
+
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("create")]
-        public Task<ClientDto> Add([FromBody]ClientDto dto)
+        public async Task<IActionResult> Add([FromBody]ClientDto dto)
         {
-            var client = repository.AddClient(dto);
-            return client;
+            if (!ModelState.IsValid) return BadRequest();
+            var client = await repository.AddAsyncClient(dto);
+            return Ok(client);
         }
     }
 }

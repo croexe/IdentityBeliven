@@ -19,28 +19,37 @@ public class TaskController : ControllerBase
 
     [Authorize(Roles = UserRoles.Manager)]
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("create")]
-    public async Task<TaskDto> Add([FromBody] TaskDto dto)
+    public async Task<IActionResult> Add([FromBody] TaskDto dto)
     {
-        var task = await _repository.AddTask(dto);
-        return task;
+        if (!ModelState.IsValid) return BadRequest();
+        var task = await _repository.AddTaskAsync(dto);
+        return Ok(task);
     }
 
     [Authorize(Roles = UserRoles.Manager)]
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("assign")]
-    public async Task<DeveloperToTaskDto> AssignTask([FromBody] DeveloperToTaskDto dto)
+    public async Task<IActionResult> AssignTask([FromBody] DeveloperToTaskDto dto)
     {
-        var task = await _repository.AssignDeveloperToTask(dto);
-        return task;
+        if (!ModelState.IsValid) return BadRequest();
+        var task = await _repository.AssignDeveloperToTaskAsync(dto);
+        return Ok(task);
     }
 
     [Authorize(Roles = UserRoles.Developer)]
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("change/state")]
-    public async Task<TaskStateDto> ChangeTaskState([FromBody] TaskStateDto dto)
+    public async Task<IActionResult> ChangeTaskState([FromBody] TaskStateDto dto)
     {
-        var task = await _repository.UpdateStateOfTask(dto);
-        return task;
+        if (!ModelState.IsValid) return BadRequest();
+        var task = await _repository.UpdateStateOfTaskAsync(dto);
+        return Ok(task);
     }
 }

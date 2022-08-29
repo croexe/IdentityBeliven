@@ -19,10 +19,13 @@ public class ProjectController : ControllerBase
     }
 
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("create")]
-    public async Task<ProjectDto> Add([FromBody] ProjectDto dto)
+    public async Task<IActionResult> Add([FromBody] ProjectDto dto)
     {
-        var project = await _repository.AddProject(dto);
-        return project;
+        if (!ModelState.IsValid) return BadRequest();
+        var project = await _repository.AddAsyncProject(dto);
+        return Ok(project);
     }
 }
