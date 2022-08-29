@@ -7,6 +7,7 @@ using TaskManager.Infrastructure.MappingProfiles;
 using TaskManager.Infrastructure.Repositories;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using TaskManager.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,7 @@ builder.Services.AddScoped<TaskDbContext>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+//builder.Services.AddScoped<INotificationService, EmailNotificationService>();
 builder.Services.AddAutoMapper(typeof(EntitiesProfile));
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
@@ -53,6 +55,9 @@ builder.Services.AddAuthentication(options =>
  });
 
 var app = builder.Build();
+
+var sendEmail = new EmailNotificationService();
+sendEmail.Send();
 
 if (app.Environment.IsDevelopment())
 {
