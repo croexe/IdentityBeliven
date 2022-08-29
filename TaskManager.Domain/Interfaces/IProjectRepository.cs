@@ -4,5 +4,5 @@ namespace TaskManager.Domain.Interfaces;
 
 public interface IProjectRepository
 {
-    Task<ProjectDto> AddProject(ProjectDto dto);
+    Task<ProjectDto> AddAsyncProject(ProjectDto dto);
 }

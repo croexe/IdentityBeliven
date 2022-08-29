@@ -4,7 +4,7 @@ namespace TaskManager.Domain.Interfaces;
 
 public interface ITaskRepository
 {
-    Task<TaskDto> AddTask(TaskDto dto);
-    Task<DeveloperToTaskDto> AssignDeveloperToTask(DeveloperToTaskDto developerToTaskDto);
-    Task<TaskStateDto> UpdateStateOfTask(TaskStateDto taskStateDto);
+    Task<TaskDto> AddTaskAsync(TaskDto dto);
+    Task<TaskDto> AssignDeveloperToTaskAsync(DeveloperToTaskDto developerToTaskDto);
+    Task<TaskDto> UpdateStateOfTaskAsync(TaskStateDto taskStateDto);
 }
