@@ -15,12 +15,15 @@ public class ProjectTableConfiguration : IEntityTypeConfiguration<Project>
 
         builder.Property(p => p.ClientId).IsRequired();
 
+        builder.Navigation(p => p.Tasks);
         builder.HasMany(p => p.Tasks)
             .WithOne(t => t.Project)
             .HasForeignKey(t => t.ProjectId);
-        
+
+        builder.Navigation(p => p.ProjectManager);
         builder.HasOne(p => p.ProjectManager)
-            .WithOne().HasForeignKey<Project>();
+            .WithOne().HasForeignKey<Project>()
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.ToTable("Projects");
     }

@@ -19,6 +19,7 @@ public class ClientTableConfiguration : IEntityTypeConfiguration<Client>
         builder.Property(c => c.Note).IsRequired(false)
             .HasColumnType("varchar(250)");
 
+        builder.Navigation(c => c.Projects);
         builder.HasMany(c => c.Projects)
             .WithOne(p => p.Client)
             .HasForeignKey(p => p.ClientId);
