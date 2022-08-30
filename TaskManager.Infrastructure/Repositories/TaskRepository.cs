@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using TaskManager.Domain.DTOs;
 using TaskManager.Domain.Interfaces;
 using TaskManager.Infrastructure.Database;
@@ -11,11 +10,13 @@ public class TaskRepository : ITaskRepository, IDisposable
 {
     private readonly IMapper _mapper;
     private readonly TaskDbContext _context;
+    private readonly INotificationService _notificationService;
 
-    public TaskRepository(IMapper mapper, TaskDbContext context)
+    public TaskRepository(IMapper mapper, TaskDbContext context, INotificationService notificationService)
     {
         _mapper = mapper;
         _context = context;
+        _notificationService = notificationService;
     }
 
     public async Task<TaskDto> AddTaskAsync(TaskDto dto)
@@ -23,16 +24,19 @@ public class TaskRepository : ITaskRepository, IDisposable
         try
         {
             var task = _mapper.Map<Domain.Entities.Task>(dto);
+
             var entry = await _context.Tasks.AddAsync(task);
-            
-            var developerId = task.UserId.Any();
 
-            if (developerId) 
+            if (!string.IsNullOrWhiteSpace(task.DeveloperId)) 
             {
-                entry.Member("DeveloperId").CurrentValue = task.UserId;
-                entry.State = EntityState.Added;
-            }
+                entry.Property(t => t.DeveloperId).CurrentValue = task.DeveloperId;
+                var recipient = await _context.Users.Where(u => u.Id == task.DeveloperId).Select(u => u.Email).FirstAsync();
+                var project = await _context.Projects.Include(p => p.ProjectManager).FirstAsync(p => p.Id == task.ProjectId);
+                var sender = project.ProjectManager.Email;
+                var title = task.Title;
 
+                _notificationService.SendAsync(recipient, sender, title, null);
+            }
             await _context.SaveChangesAsync();
 
             var taskDto = _mapper.Map<TaskDto>(task);
@@ -48,11 +52,17 @@ public class TaskRepository : ITaskRepository, IDisposable
     {
         try
         {
-            var entry = await _context.Tasks.Where(t => t.Id == developerToTaskDto.TaskId).FirstAsync();
-            _context.Entry(entry).Property("DeveloperId").CurrentValue = developerToTaskDto.DeveloperId;
+            var task = await _context.Tasks.Include(t => t.Project).Where(t => t.Id == developerToTaskDto.TaskId).FirstAsync();
+            var recipient = await _context.Users.Where(u => u.Id == developerToTaskDto.DeveloperId).Select(u => u.Email).FirstAsync();
+            var project = await _context.Projects.Include(p => p.ProjectManager).FirstAsync(p => p.Id == task.ProjectId);
+            var sender = project.ProjectManager.Email;
+            var title = task.Title;
+
+            _notificationService.SendAsync(recipient, sender, title, null);
+            task.DeveloperId = developerToTaskDto.DeveloperId;
             await _context.SaveChangesAsync();
 
-            var taskDto = _mapper.Map<TaskDto>(entry);
+            var taskDto = _mapper.Map<TaskDto>(task);
             return taskDto;
         }
         catch (Exception)
@@ -66,8 +76,19 @@ public class TaskRepository : ITaskRepository, IDisposable
     {
         try
         {
-            var task = await _context.Tasks.Where(t => t.Id == taskStateDto.TaskId).SingleAsync();
+            var task = await _context.Tasks.Include(t => t.State).FirstAsync(t => t.Id == taskStateDto.TaskId);
+            var sender = await _context.Users.Where(u => u.Id == task.DeveloperId).Select(u => u.Email).SingleAsync();
+            var project = await _context.Projects.Include(p => p.ProjectManager).FirstAsync(p => p.Id == task.ProjectId);
             task.StateId = taskStateDto.StateId;
+
+            if(task.StateId == 2) 
+            {
+                var recipient = project.ProjectManager.Email;
+                var title = task.Title;
+                var status = task.State.StateName;
+                _notificationService.SendAsync(recipient, sender, title, status);
+            }
+
             await _context.SaveChangesAsync();
 
             var taskDto = _mapper.Map<TaskDto>(task);

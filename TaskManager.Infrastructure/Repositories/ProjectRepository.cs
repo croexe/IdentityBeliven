@@ -23,7 +23,6 @@ public class ProjectRepository : IProjectRepository, IDisposable
         {
             var project = _mapper.Map<Project>(dto);
             var entry = await _context.Projects.AddAsync(project);
-            _context.Entry(entry).Property("ProjectManagerId").CurrentValue = project.UserId;
             
             await _context.SaveChangesAsync();
             var projectDto = _mapper.Map<ProjectDto>(project);
