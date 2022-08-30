@@ -55,8 +55,8 @@ namespace TaskManager.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Sector = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Sector = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -203,7 +203,7 @@ namespace TaskManager.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ClientId = table.Column<int>(type: "int", nullable: false),
-                    ProjectManagerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    ProjectManagerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -212,7 +212,8 @@ namespace TaskManager.Infrastructure.Migrations
                         name: "FK_Projects_AspNetUsers_ProjectManagerId",
                         column: x => x.ProjectManagerId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Projects_Clients_ClientId",
                         column: x => x.ClientId,
@@ -230,7 +231,7 @@ namespace TaskManager.Infrastructure.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProjectId = table.Column<int>(type: "int", nullable: false),
-                    PriorityId = table.Column<int>(type: "int", nullable: false),
+                    PriorityId = table.Column<int>(type: "int", nullable: true),
                     StateId = table.Column<int>(type: "int", nullable: false),
                     DeveloperId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -246,8 +247,7 @@ namespace TaskManager.Infrastructure.Migrations
                         name: "FK_Tasks_Priorities_PriorityId",
                         column: x => x.PriorityId,
                         principalTable: "Priorities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Tasks_Projects_ProjectId",
                         column: x => x.ProjectId,
@@ -320,7 +320,8 @@ namespace TaskManager.Infrastructure.Migrations
                 name: "IX_Tasks_PriorityId",
                 table: "Tasks",
                 column: "PriorityId",
-                unique: true);
+                unique: false,
+                filter: "[PriorityId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_ProjectId",
@@ -331,7 +332,7 @@ namespace TaskManager.Infrastructure.Migrations
                 name: "IX_Tasks_StateId",
                 table: "Tasks",
                 column: "StateId",
-                unique: true);
+                unique: false);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

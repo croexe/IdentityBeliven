@@ -233,11 +233,9 @@ namespace TaskManager.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Note")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Sector")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -278,6 +276,7 @@ namespace TaskManager.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProjectManagerId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -321,8 +320,9 @@ namespace TaskManager.Infrastructure.Migrations
                     b.Property<string>("DeveloperId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("PriorityId")
-                        .HasColumnType("int");
+                    b.Property<int?>("PriorityId")
+                        .HasColumnType("int")
+                        .HasDefaultValue(2);
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
@@ -339,12 +339,13 @@ namespace TaskManager.Infrastructure.Migrations
                     b.HasIndex("DeveloperId");
 
                     b.HasIndex("PriorityId")
-                        .IsUnique();
+                        .IsUnique(false)
+                        .HasFilter("[PriorityId] IS NOT NULL");
 
                     b.HasIndex("ProjectId");
 
                     b.HasIndex("StateId")
-                        .IsUnique();
+                        .IsUnique(false);
 
                     b.ToTable("Tasks");
                 });
@@ -410,7 +411,9 @@ namespace TaskManager.Infrastructure.Migrations
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "ProjectManager")
                         .WithMany()
-                        .HasForeignKey("ProjectManagerId");
+                        .HasForeignKey("ProjectManagerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Client");
 
@@ -425,20 +428,18 @@ namespace TaskManager.Infrastructure.Migrations
 
                     b.HasOne("TaskManager.Domain.Entities.Priority", "Priority")
                         .WithOne("Task")
-                        .HasForeignKey("TaskManager.Domain.Entities.Task", "PriorityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TaskManager.Domain.Entities.Task", "PriorityId");
 
                     b.HasOne("TaskManager.Domain.Entities.Project", "Project")
                         .WithMany("Tasks")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("TaskManager.Domain.Entities.State", "State")
                         .WithOne("Task")
                         .HasForeignKey("TaskManager.Domain.Entities.Task", "StateId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Developer");
