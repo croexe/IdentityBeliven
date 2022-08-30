@@ -17,5 +17,6 @@ public sealed class TaskDto : Entity
     public int PriorityId { get; set; }
     [Required]
     public int StateId { get; set; }
-    public string DeveloperId { get; set; }
+    [StringLength(450, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 1)]
+    public string? DeveloperId { get; set; }
 }
