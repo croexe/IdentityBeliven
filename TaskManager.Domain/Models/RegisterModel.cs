@@ -2,7 +2,7 @@
 
 namespace TaskManager.Domain.Models;
 
-public sealed class RegisterModel : LoginModel
+public class RegisterModel : LoginModel
 {
     [EmailAddress]
     [Required(ErrorMessage = "Email is required.")]

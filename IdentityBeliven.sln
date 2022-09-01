@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager", "TaskManager\TaskManager.csproj", "{275FB24B-E813-4534-A76C-AA9C0A9F9E77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager", "TaskManager\TaskManager.csproj", "{275FB24B-E813-4534-A76C-AA9C0A9F9E77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Domain", "TaskManager.Domain\TaskManager.Domain.csproj", "{A3BEEBB0-C433-4C97-987D-5B9B7D2D27A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Domain", "TaskManager.Domain\TaskManager.Domain.csproj", "{A3BEEBB0-C433-4C97-987D-5B9B7D2D27A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Infrastructure", "TaskManager.Infrastructure\TaskManager.Infrastructure.csproj", "{0829A2A8-C45C-4639-B098-3D559EAC0370}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Infrastructure", "TaskManager.Infrastructure\TaskManager.Infrastructure.csproj", "{0829A2A8-C45C-4639-B098-3D559EAC0370}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Infrastructure.Tests", "TaskManager.Infrastructure.Tests\TaskManager.Infrastructure.Tests.csproj", "{8D1260AA-1030-4868-B90B-49F2AEFCAB67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{0829A2A8-C45C-4639-B098-3D559EAC0370}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0829A2A8-C45C-4639-B098-3D559EAC0370}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0829A2A8-C45C-4639-B098-3D559EAC0370}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D1260AA-1030-4868-B90B-49F2AEFCAB67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D1260AA-1030-4868-B90B-49F2AEFCAB67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D1260AA-1030-4868-B90B-49F2AEFCAB67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D1260AA-1030-4868-B90B-49F2AEFCAB67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
