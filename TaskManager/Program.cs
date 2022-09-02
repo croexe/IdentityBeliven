@@ -8,6 +8,11 @@ using TaskManager.Infrastructure.Repositories;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TaskManager.Infrastructure.Services;
+using Serilog;
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +20,11 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+Log.Logger = new LoggerConfiguration().CreateBootstrapLogger();
+builder.Host.UseSerilog(((ctx, lc) => lc
+
+.ReadFrom.Configuration(ctx.Configuration)));
 
 builder.Services.AddScoped<TaskDbContext>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
@@ -56,6 +66,8 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
+app.UseSerilogRequestLogging();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -73,3 +85,4 @@ app.UseEndpoints(endpoints =>
 });
 
 app.Run();
+public partial class Program { }

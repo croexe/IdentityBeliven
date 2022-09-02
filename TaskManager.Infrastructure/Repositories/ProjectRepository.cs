@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Serilog;
 using TaskManager.Domain.DTOs;
 using TaskManager.Domain.Entities;
 using TaskManager.Domain.Interfaces;
@@ -10,28 +11,31 @@ public class ProjectRepository : IProjectRepository, IDisposable
 {
     private readonly IMapper _mapper;
     private readonly TaskDbContext _context;
+    private readonly ILogger _logger;
 
-    public ProjectRepository(IMapper mapper, TaskDbContext context)
+    public ProjectRepository(IMapper mapper, TaskDbContext context, ILogger logger)
     {
         _mapper = mapper;
         _context = context;
+        _logger = logger;
     }
 
     public async Task<ProjectDto> AddAsyncProject(ProjectDto dto)
     {
+        ProjectDto projectDto = null;
         try
         {
             var project = _mapper.Map<Project>(dto);
-            var entry = await _context.Projects.AddAsync(project);
-            
+            await _context.Projects.AddAsync(project);
             await _context.SaveChangesAsync();
-            var projectDto = _mapper.Map<ProjectDto>(project);
-            return projectDto;
+
+            projectDto = _mapper.Map<ProjectDto>(project);
         }
         catch (Exception ex)
         {
-            throw;
+            _logger.Error(ex.Message);
         }
+        return projectDto;
     }
 
     public void Dispose()

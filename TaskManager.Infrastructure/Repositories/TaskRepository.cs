@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using TaskManager.Domain.DTOs;
 using TaskManager.Domain.Interfaces;
 using TaskManager.Infrastructure.Database;
@@ -10,17 +11,20 @@ public class TaskRepository : ITaskRepository, IDisposable
 {
     private readonly IMapper _mapper;
     private readonly TaskDbContext _context;
+    private readonly ILogger _logger;
     private readonly INotificationService _notificationService;
 
-    public TaskRepository(IMapper mapper, TaskDbContext context, INotificationService notificationService)
+    public TaskRepository(IMapper mapper, TaskDbContext context, ILogger logger, INotificationService notificationService)
     {
         _mapper = mapper;
         _context = context;
+        _logger = logger;
         _notificationService = notificationService;
     }
 
     public async Task<TaskDto> AddTaskAsync(TaskDto dto)
     {
+        TaskDto taskDto = null;
         try
         {
             var task = _mapper.Map<Domain.Entities.Task>(dto);
@@ -35,21 +39,22 @@ public class TaskRepository : ITaskRepository, IDisposable
                 var sender = project.ProjectManager.Email;
                 var title = task.Title;
 
-                _notificationService.SendAsync(recipient, sender, title, null);
+                _notificationService.Send(recipient, sender, title, null);
             }
             await _context.SaveChangesAsync();
 
-            var taskDto = _mapper.Map<TaskDto>(task);
-            return taskDto;
+            taskDto = _mapper.Map<TaskDto>(task);
         }
-        catch (Exception)
+        catch (Exception ex)
         { 
-            throw;
+            _logger.Error(ex.Message);
         }
+        return taskDto;
     }
 
     public async Task<TaskDto> AssignDeveloperToTaskAsync(DeveloperToTaskDto developerToTaskDto)
     {
+        TaskDto taskDto = null;
         try
         {
             var task = await _context.Tasks.Include(t => t.Project).Where(t => t.Id == developerToTaskDto.TaskId).FirstAsync();
@@ -58,26 +63,33 @@ public class TaskRepository : ITaskRepository, IDisposable
             var sender = project.ProjectManager.Email;
             var title = task.Title;
 
-            _notificationService.SendAsync(recipient, sender, title, null);
+            _notificationService.Send(recipient, sender, title, null);
             task.DeveloperId = developerToTaskDto.DeveloperId;
             await _context.SaveChangesAsync();
 
-            var taskDto = _mapper.Map<TaskDto>(task);
-            return taskDto;
+            taskDto = _mapper.Map<TaskDto>(task);
+            
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-
-            throw;
+            _logger.Error(ex.Message);
         }
+        return taskDto;
     }
 
     public async Task<TaskDto> UpdateStateOfTaskAsync(TaskStateDto taskStateDto)
     {
+        TaskDto taskDto = null;
         try
         {
             var task = await _context.Tasks.Include(t => t.State).FirstAsync(t => t.Id == taskStateDto.TaskId);
-            var sender = await _context.Users.Where(u => u.Id == task.DeveloperId).Select(u => u.Email).SingleAsync();
+
+            if(task.DeveloperId == null)
+            {
+                return _mapper.Map<TaskDto>(task);
+            }
+
+            var sender = await _context.Users.Where(u => u.Id == task.DeveloperId).Select(u => u.Email).FirstAsync();
             var project = await _context.Projects.Include(p => p.ProjectManager).FirstAsync(p => p.Id == task.ProjectId);
             task.StateId = taskStateDto.StateId;
 
@@ -86,19 +98,19 @@ public class TaskRepository : ITaskRepository, IDisposable
                 var recipient = project.ProjectManager.Email;
                 var title = task.Title;
                 var status = task.State.StateName;
-                _notificationService.SendAsync(recipient, sender, title, status);
+                _notificationService.Send(recipient, sender, title, status);
             }
 
             await _context.SaveChangesAsync();
 
-            var taskDto = _mapper.Map<TaskDto>(task);
-            return taskDto;
+            taskDto = _mapper.Map<TaskDto>(task);
+            
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-
-            throw;
+            _logger.Error(ex.Message);
         }
+        return taskDto;
     }
 
     public void Dispose()
