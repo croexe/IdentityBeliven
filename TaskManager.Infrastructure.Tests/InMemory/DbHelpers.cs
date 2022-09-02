@@ -1,42 +1,36 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using TaskManager.Domain.Entities;
 using TaskManager.Infrastructure.Database;
 
-namespace TaskManager.Infrastructure.Tests.SQLite;
+namespace TaskManager.Infrastructure.Tests.InMemory;
 
-public class TaskManagerTestHelpers
+public static class DbHelpers
 {
-    public TaskDbContext TaskManagerDbContextSQLiteInMemory()
+
+    public static async System.Threading.Tasks.Task CreateData(TaskDbContext taskContext)
     {
-        IServiceCollection serviceCollection = new ServiceCollection();
 
-        var connectionStringBuilder =
-            new SqliteConnectionStringBuilder { DataSource = ":memory:" };
-        var connection = new SqliteConnection(connectionStringBuilder.ToString());
+        await taskContext.Users.AddAsync(new IdentityUser()
+        {
+            Id = "b2334e9a-a8d6-49b8-8a13-b77e1729d1b5",
+            EmailConfirmed = false,
+            PhoneNumberConfirmed = false,
+            TwoFactorEnabled = false,
+            LockoutEnabled = false,
+            AccessFailedCount = 0,
+        });
 
-        serviceCollection.AddDbContext<TaskDbContext>(options => options.UseSqlite(connection));
+        await taskContext.Users.AddAsync(new IdentityUser()
+        {
+            Id = "90149c80-754f-44a6-9f09-6975492ae019",
+            EmailConfirmed = false,
+            PhoneNumberConfirmed = false,
+            TwoFactorEnabled = false,
+            LockoutEnabled = false,
+            AccessFailedCount = 0,
+        });
 
-        var _context = serviceCollection.BuildServiceProvider().GetService<TaskDbContext>();
-        _context.Database.OpenConnectionAsync();
-        _context.Database.EnsureCreatedAsync();
-
-        serviceCollection.AddIdentity<IdentityUser,IdentityRole>().AddEntityFrameworkStores<TaskDbContext>();
-
-        // Get UserManager and RoleManager.
-        var userManager = serviceCollection.BuildServiceProvider().GetService<UserManager<IdentityUser>>();
-        var roleManager = serviceCollection.BuildServiceProvider().GetService<RoleManager<IdentityRole>>();
-
-        CreateData(_context, userManager, roleManager);
-
-        return _context;
-    }
-
-    private static async System.Threading.Tasks.Task CreateData(TaskDbContext taskContext, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
-    {
-       UserTestData.CreateUsers(userManager, roleManager);
         await taskContext.Priorities.AddAsync(new Priority()
         {
             Id = 1,
@@ -61,7 +55,7 @@ public class TaskManagerTestHelpers
             ClientId = 2,
             ProjectManagerId = "b2334e9a-a8d6-49b8-8a13-b77e1729d1b5"
         });
-        await taskContext.Tasks.AddAsync(new Domain.Entities.Task()
+        await taskContext.Tasks.AddAsync(new Task()
         {
             Id = 1,
             Title = "Service Layer",

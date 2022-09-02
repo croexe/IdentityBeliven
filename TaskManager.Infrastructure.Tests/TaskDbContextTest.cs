@@ -1,10 +1,6 @@
-﻿using Castle.Core.Configuration;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using TaskManager.Domain.Entities;
-using TaskManager.Domain.Helpers;
-using TaskManager.Domain.Models;
 using TaskManager.Infrastructure.Database;
 
 namespace TaskManager.Infrastructure.Tests;
@@ -27,8 +23,6 @@ public class TaskDbContextTest : TaskDbContext
     {
         SeedDatabase();
     }
-
-
 
     public void SeedDatabase()
     {

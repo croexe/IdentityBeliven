@@ -2,5 +2,5 @@
 
 public interface INotificationService
 {
-    void SendAsync(string recipient, string sender, string title, string? message);
+    void Send(string recipient, string sender, string title, string? message);
 }

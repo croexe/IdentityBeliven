@@ -30,24 +30,26 @@ public class TaskController : ControllerBase
     }
 
     [Authorize(Roles = UserRoles.Manager)]
-    [HttpPost]
+    [HttpPut]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [Route("assign")]
-    public async Task<IActionResult> AssignTask([FromBody] DeveloperToTaskDto dto)
+    [Route("{id}/assign")]
+    public async Task<IActionResult> AssignTask(int id, DeveloperToTaskDto dto)
     {
+        if (id != dto.TaskId) return BadRequest();
         if (!ModelState.IsValid) return BadRequest();
         var task = await _repository.AssignDeveloperToTaskAsync(dto);
         return Ok(task);
     }
 
     [Authorize(Roles = UserRoles.Developer)]
-    [HttpPost]
+    [HttpPut]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [Route("change/state")]
-    public async Task<IActionResult> ChangeTaskState([FromBody] TaskStateDto dto)
+    [Route("{id}/change/state")]
+    public async Task<IActionResult> ChangeTaskState(int id, TaskStateDto dto)
     {
+        if(id != dto.TaskId) return BadRequest();
         if (!ModelState.IsValid) return BadRequest();
         var task = await _repository.UpdateStateOfTaskAsync(dto);
         return Ok(task);
