@@ -9,6 +9,9 @@
 		{
 			"name": "User Login - PM",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -35,6 +38,9 @@
 		{
 			"name": "User Login - DEV",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -205,7 +211,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n \"name\":\"Euris\",\r\n \"sector\":\"Soft\",\r\n \"note\":\"med company\"\r\n}",
+					"raw": "{\r\n \"name\":\"Intesa\",\r\n \"sector\":\"Bank\",\r\n \"note\":\"Bank\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -241,7 +247,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"name\":\"migration\",\r\n\"clientId\":1,\r\n\"projectmanagerid\": \"b2334e9a-a8d6-49b8-8a13-b77e1729d1b5\"\r\n}",
+					"raw": "{\r\n\"name\":\"Bulks\",\r\n\"clientId\":1,\r\n\"projectmanagerid\": \"e52ce8b3-97e0-4fd0-99b2-2923f9d745bd\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -277,7 +283,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"title\":\"Create Bussines Rules\",\r\n\"description\":\"very fast development\",\r\n\"projectId\":1,\r\n\"priorityId\":2,\r\n\"stateId\": 2\r\n}",
+					"raw": "{\r\n\"title\":\"Create Bussines Rules\",\r\n\"description\":\"very fast development\",\r\n\"projectId\":2,\r\n\"priorityId\":2,\r\n\"stateId\": 2\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -313,7 +319,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"title\":\"Create Controllers\",\r\n\"description\":\"very fast development\",\r\n\"projectId\":1,\r\n\"priorityId\":2,\r\n\"stateId\": 1\r\n}",
+					"raw": "{\r\n\"title\":\"Create Controllers\",\r\n\"description\":\"very fast development\",\r\n\"projectId\":2,\r\n\"priorityId\":2,\r\n\"stateId\": 1,\r\n\"developerid\":\"01615929-1cf6-445d-86c1-a1e01692b44c\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -349,7 +355,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"title\":\"Create Mappers\",\r\n\"description\":\"very fast development\",\r\n\"projectId\":1,\r\n\"priorityId\":1,\r\n\"stateId\": 1\r\n}",
+					"raw": "{\r\n\"title\":\"Create Mappers\",\r\n\"description\":\"very fast development\",\r\n\"projectId\":1,\r\n\"priorityId\":1,\r\n\"stateId\": 1,\r\n\"developerid\": \"a51a8da1-a2fe-4535-8083-7f1a0108ec4b\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -385,7 +391,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"taskid\": 2,\r\n\"developerId\": \"90149c80-754f-44a6-9f09-6975492ae019\"\r\n}",
+					"raw": "{\r\n\"taskid\": 2,\r\n\"developerId\": \"a51a8da1-a2fe-4535-8083-7f1a0108ec4b\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
