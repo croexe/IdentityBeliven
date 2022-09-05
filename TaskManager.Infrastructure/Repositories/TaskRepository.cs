@@ -28,6 +28,8 @@ public class TaskRepository : ITaskRepository, IDisposable
         try
         {
             var task = _mapper.Map<Domain.Entities.Task>(dto);
+            if (task.PriorityId == null)
+                task.PriorityId = 2;
 
             var entry = await _context.Tasks.AddAsync(task);
 
