@@ -13,8 +13,8 @@ public sealed class TaskDto : Entity
     public string Description { get; set; }
     [Required]
     public int ProjectId { get; set; }
-    [Required]
-    public int PriorityId { get; set; }
+
+    public int? PriorityId { get; set; }
     [Required]
     public int StateId { get; set; }
     [StringLength(450, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 1)]

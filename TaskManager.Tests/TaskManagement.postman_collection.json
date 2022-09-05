@@ -1,0 +1,447 @@
+{
+	"info": {
+		"_postman_id": "9e2921a1-51d5-410c-b4bb-83ae87bed041",
+		"name": "TaskManagement",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10898315"
+	},
+	"item": [
+		{
+			"name": "User Login - PM",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"irinejs@gmail.com\",\r\n    \"password\":\"/3366Ttxxx@\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}Account/login",
+					"host": [
+						"{{BaseUrl}}Account"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Login - DEV",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"divans@gmail.com\",\r\n    \"password\":\"/3376Ttxxx@\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}Account/login",
+					"host": [
+						"{{BaseUrl}}Account"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Login - DEV",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"petars@gmail.com\",\r\n    \"password\":\"/3386Ttxxx@\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}Account/login",
+					"host": [
+						"{{BaseUrl}}Account"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register User - PM",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"irinejs@gmail.com\",\r\n    \"password\":\"/3366Ttxxx@\",\r\n    \"email\":\"irinejs@gmail.com\",\r\n    \"usertype\":\"ProjectManager\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}Account/register",
+					"host": [
+						"{{BaseUrl}}Account"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register User - DEV",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"petars@gmail.com\",\r\n    \"password\":\"/3386Ttxxx@\",\r\n    \"email\":\"petars@gmail.com\",\r\n    \"usertype\":\"Developer\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}Account/register",
+					"host": [
+						"{{BaseUrl}}Account"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register User - DEV",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"divans@gmail.com\",\r\n    \"password\":\"/3376Ttxxx@\",\r\n    \"email\":\"divans@gmail.com\",\r\n    \"usertype\":\"Developer\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}Account/register",
+					"host": [
+						"{{BaseUrl}}Account"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register User - FAIL",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"dirinejs@gmail.com\",\r\n    \"password\":\"/1356Ttxxx@\",\r\n    \"email\":\"dirinejs@gmail.com\",\r\n    \"usertype\":\"Driver\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}Account/register",
+					"host": [
+						"{{BaseUrl}}Account"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Client",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{JWT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"name\":\"Euris\",\r\n \"sector\":\"Soft\",\r\n \"note\":\"med company\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}Client/create",
+					"host": [
+						"{{BaseUrl}}Client"
+					],
+					"path": [
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Project",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{JWT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"name\":\"migration\",\r\n\"clientId\":1,\r\n\"projectmanagerid\": \"b2334e9a-a8d6-49b8-8a13-b77e1729d1b5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}Project/create",
+					"host": [
+						"{{BaseUrl}}Project"
+					],
+					"path": [
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Task",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{JWT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"title\":\"Create Bussines Rules\",\r\n\"description\":\"very fast development\",\r\n\"projectId\":1,\r\n\"priorityId\":2,\r\n\"stateId\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}Task/create",
+					"host": [
+						"{{BaseUrl}}Task"
+					],
+					"path": [
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Task 2",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{JWT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"title\":\"Create Controllers\",\r\n\"description\":\"very fast development\",\r\n\"projectId\":1,\r\n\"priorityId\":2,\r\n\"stateId\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}Task/create",
+					"host": [
+						"{{BaseUrl}}Task"
+					],
+					"path": [
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Task 3",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{JWT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"title\":\"Create Mappers\",\r\n\"description\":\"very fast development\",\r\n\"projectId\":1,\r\n\"priorityId\":1,\r\n\"stateId\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}Task/create",
+					"host": [
+						"{{BaseUrl}}Task"
+					],
+					"path": [
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task assign to a developer",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{JWT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"taskid\": 2,\r\n\"developerId\": \"90149c80-754f-44a6-9f09-6975492ae019\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}Task/2/assign",
+					"host": [
+						"{{BaseUrl}}Task"
+					],
+					"path": [
+						"2",
+						"assign"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change State of a Task",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{JWT}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"taskid\": 2,\r\n\"stateId\": 4\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}Task/2/change/state",
+					"host": [
+						"{{BaseUrl}}Task"
+					],
+					"path": [
+						"2",
+						"change",
+						"state"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

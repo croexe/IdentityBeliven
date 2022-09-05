@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TaskManager.Infrastructure.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -262,6 +262,27 @@ namespace TaskManager.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Priorities",
+                columns: new[] { "Id", "PriorityName" },
+                values: new object[,]
+                {
+                    { 1, "Low" },
+                    { 2, "Medium" },
+                    { 3, "High" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "States",
+                columns: new[] { "Id", "StateName" },
+                values: new object[,]
+                {
+                    { 1, "Backlog" },
+                    { 2, "ToDo" },
+                    { 3, "InProgress" },
+                    { 4, "Done" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -319,9 +340,7 @@ namespace TaskManager.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_PriorityId",
                 table: "Tasks",
-                column: "PriorityId",
-                unique: false,
-                filter: "[PriorityId] IS NOT NULL");
+                column: "PriorityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_ProjectId",
@@ -331,8 +350,7 @@ namespace TaskManager.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_StateId",
                 table: "Tasks",
-                column: "StateId",
-                unique: false);
+                column: "StateId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

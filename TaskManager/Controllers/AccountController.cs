@@ -70,6 +70,9 @@ public class AccountController : ControllerBase
     [Route("register")]
     public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
     {
+        if(model.Usertype != UserRoles.Developer && model.Usertype != UserRoles.Manager)
+            return StatusCode(StatusCodes.Status400BadRequest, new {Status = "Error", Message = "Invalid User Type."});
+
         var userExists = await _userManager.FindByNameAsync(model.Username);
         if (userExists != null)
             return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = UserMessages.USER_ALREADY_EXISTS });
@@ -82,7 +85,7 @@ public class AccountController : ControllerBase
         };
         var result = await _userManager.CreateAsync(user, model.Password);
         if (!result.Succeeded)
-            return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = UserMessages.USER_CREATION_UNSUCCESSFUL });
+            return StatusCode(StatusCodes.Status400BadRequest, new { Status = "Error", Message = UserMessages.USER_CREATION_UNSUCCESSFUL });
 
         if (!await _roleManager.RoleExistsAsync(UserRoles.Manager))
             await _roleManager.CreateAsync(new IdentityRole(UserRoles.Manager));

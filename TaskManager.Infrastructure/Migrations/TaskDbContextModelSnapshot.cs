@@ -258,6 +258,23 @@ namespace TaskManager.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Priorities");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PriorityName = "Low"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            PriorityName = "Medium"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            PriorityName = "High"
+                        });
                 });
 
             modelBuilder.Entity("TaskManager.Domain.Entities.Project", b =>
@@ -303,6 +320,28 @@ namespace TaskManager.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("States");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            StateName = "Backlog"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            StateName = "ToDo"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            StateName = "InProgress"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            StateName = "Done"
+                        });
                 });
 
             modelBuilder.Entity("TaskManager.Domain.Entities.Task", b =>
@@ -321,8 +360,7 @@ namespace TaskManager.Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("PriorityId")
-                        .HasColumnType("int")
-                        .HasDefaultValue(2);
+                        .HasColumnType("int");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
@@ -338,14 +376,11 @@ namespace TaskManager.Infrastructure.Migrations
 
                     b.HasIndex("DeveloperId");
 
-                    b.HasIndex("PriorityId")
-                        .IsUnique(false)
-                        .HasFilter("[PriorityId] IS NOT NULL");
+                    b.HasIndex("PriorityId");
 
                     b.HasIndex("ProjectId");
 
-                    b.HasIndex("StateId")
-                        .IsUnique(false);
+                    b.HasIndex("StateId");
 
                     b.ToTable("Tasks");
                 });
@@ -427,19 +462,19 @@ namespace TaskManager.Infrastructure.Migrations
                         .HasForeignKey("DeveloperId");
 
                     b.HasOne("TaskManager.Domain.Entities.Priority", "Priority")
-                        .WithOne("Task")
-                        .HasForeignKey("TaskManager.Domain.Entities.Task", "PriorityId");
+                        .WithMany()
+                        .HasForeignKey("PriorityId");
 
                     b.HasOne("TaskManager.Domain.Entities.Project", "Project")
                         .WithMany("Tasks")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TaskManager.Domain.Entities.State", "State")
-                        .WithOne("Task")
-                        .HasForeignKey("TaskManager.Domain.Entities.Task", "StateId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .WithMany()
+                        .HasForeignKey("StateId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Developer");
@@ -456,21 +491,9 @@ namespace TaskManager.Infrastructure.Migrations
                     b.Navigation("Projects");
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Entities.Priority", b =>
-                {
-                    b.Navigation("Task")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("TaskManager.Domain.Entities.Project", b =>
                 {
                     b.Navigation("Tasks");
-                });
-
-            modelBuilder.Entity("TaskManager.Domain.Entities.State", b =>
-                {
-                    b.Navigation("Task")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

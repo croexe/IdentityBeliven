@@ -16,6 +16,12 @@ public class TaskDbContext : IdentityDbContext<IdentityUser>
     {
     }
 
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+        builder.Seed();
+    }
+
     public virtual DbSet<Client> Clients { get; set; }
     public virtual DbSet<Project> Projects { get; set; }
     public virtual DbSet<Domain.Entities.Task> Tasks { get; set; }
