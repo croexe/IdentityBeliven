@@ -247,7 +247,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"name\":\"Bulks\",\r\n\"clientId\":1,\r\n\"projectmanagerid\": \"e52ce8b3-97e0-4fd0-99b2-2923f9d745bd\"\r\n}",
+					"raw": "{\r\n\"name\":\"Bulks\",\r\n\"clientId\":1,\r\n\"projectmanagerid\": \"{{ProjectManagerId}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -274,7 +274,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "{{JWT}}",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiaXJpbmVqc0BnbWFpbC5jb20iLCJqdGkiOiI5YTMzZWE3Yy1iMWQ3LTRjOWItYjBiMy00ZGMxMjdjMmY4ODEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJQcm9qZWN0TWFuYWdlciIsImV4cCI6MTY2MjM5OTk4MywiaXNzIjoiaHR0cDovL2lyaW5lanRlc3QuY29tLndpbjE0Lm1vanNpdGUuY29tLyIsImF1ZCI6Imh0dHA6Ly9pcmluZWp0ZXN0LmNvbS53aW4xNC5tb2pzaXRlLmNvbS8ifQ.70fOD2d78J4ipOxnEwYAebJFu5IBcKcAKLPdPOxpl6g",
 							"type": "string"
 						}
 					]
@@ -283,7 +283,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"title\":\"Create Bussines Rules\",\r\n\"description\":\"very fast development\",\r\n\"projectId\":2,\r\n\"priorityId\":2,\r\n\"stateId\": 2\r\n}",
+					"raw": "{\r\n\"title\":\"AUTOMAPPERS\",\r\n\"description\":\"very fast development\",\r\n\"projectId\":2,\r\n\"stateId\": 2\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -355,7 +355,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"title\":\"Create Mappers\",\r\n\"description\":\"very fast development\",\r\n\"projectId\":1,\r\n\"priorityId\":1,\r\n\"stateId\": 1,\r\n\"developerid\": \"a51a8da1-a2fe-4535-8083-7f1a0108ec4b\"\r\n}",
+					"raw": "{\r\n\"title\":\"Create Mappers\",\r\n\"description\":\"very fast development\",\r\n\"projectId\":3,\r\n\"priorityId\":1,\r\n\"stateId\": 1,\r\n\"developerid\": \"{{DeveloperId2}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -428,7 +428,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"taskid\": 2,\r\n\"stateId\": 4\r\n}",
+					"raw": "{\r\n\"taskid\": 2,\r\n\"stateId\": 3\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
