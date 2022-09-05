@@ -1,8 +1,13 @@
+Task Management Project with Identity authentification
+Web API .NET 6
+MSSQL
+
+
 ![TaskManagementDatabase.png](TaskManagementDatabase.png)
 
 1. Install EF Core tools: https://docs.microsoft.com/en-us/ef/core/cli/dotnet
 2. Create database, and copy connection string to the appsettings.json ["ConnectionStrings": { "Default": "YourConnectionString" }] file which is in TaskManager folder
-3. Run migration update: dotnet ef database update.
+3. Run migration update: dotnet ef database update. If run Locally, it should be run against database in Development settings.
 4. In appsettings.json file update your email data:
 		"Mailer": {
     "Port": "YourPort",
