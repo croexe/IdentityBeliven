@@ -64,9 +64,21 @@ builder.Services.AddAuthentication(options =>
      };
  });
 
+var AllowSpecificOrigins = "AllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: AllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                      });
+});
+
 var app = builder.Build();
 
 app.UseSerilogRequestLogging();
+app.UseCors(AllowSpecificOrigins);
 
 if (app.Environment.IsDevelopment())
 {
