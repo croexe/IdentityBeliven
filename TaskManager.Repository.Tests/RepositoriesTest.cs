@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TaskManager.Domain.DTOs;
 using TaskManager.Infrastructure.Database;
@@ -16,11 +14,13 @@ public class RepositoriesTest
 {
     private DbContextOptions<TaskDbContext> _options;
     private IMapper _mapper;
+    private ILogger _logger;
     public RepositoriesTest()
     {
         _options = TaskDbHelper.TaskManagerDbContextOptionsSQLiteInMemory();
         TaskDbHelper.CreateDataBaseSQLiteInMemory(_options);
         _mapper = AutoMapperFactory.BuildAutoMapper();
+        _logger = new LoggerConfiguration().CreateLogger();
     }
 
     public void Dispose()
@@ -33,7 +33,7 @@ public class RepositoriesTest
     {
         using(var context = new TaskDbContext(_options))
         {
-            var clientRepository = new ClientRepository(context, _mapper);
+            var clientRepository = new ClientRepository(context, _mapper, _logger);
             var result = await clientRepository.AddAsyncClient(new ClientDto()
             {
                 Id = 2,
@@ -51,7 +51,7 @@ public class RepositoriesTest
     {
         using (var context = new TaskDbContext(_options))
         {
-            var clientRepository = new ClientRepository(context, _mapper);
+            var clientRepository = new ClientRepository(context, _mapper, _logger);
             var result = await clientRepository.AddAsyncClient(new ClientDto()
             {
                 Id = 2,
@@ -84,7 +84,7 @@ public class RepositoriesTest
     {
         using(var context = new TaskDbContext(_options))
         {
-            var projectRepository = new ProjectRepository(_mapper, context);
+            var projectRepository = new ProjectRepository(_mapper, context, _logger);
             var result = projectRepository.AddAsyncProject(new ProjectDto()
             {
                 Id = 1,
@@ -102,7 +102,7 @@ public class RepositoriesTest
     {
         using (var context = new TaskDbContext(_options))
         {
-            var projectRepository = new ProjectRepository(_mapper, context);
+            var projectRepository = new ProjectRepository(_mapper, context, _logger);
             var result = projectRepository.AddAsyncProject(new ProjectDto()
             {
                 Id = 1,

@@ -93,7 +93,7 @@ public class TaskRepository : ITaskRepository, IDisposable
             var project = await _context.Projects.Include(p => p.ProjectManager).FirstAsync(p => p.Id == task.ProjectId);
             task.StateId = taskStateDto.StateId;
 
-            if(task.StateId == 2) 
+            if(task.StateId == 4) 
             {
                 var recipient = project.ProjectManager.Email;
                 var title = task.Title;
