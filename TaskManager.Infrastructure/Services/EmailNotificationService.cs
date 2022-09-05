@@ -54,7 +54,6 @@ public class EmailNotificationService : INotificationService
         catch (Exception ex)
         {
             _logger.Error(ex.Message);
-            throw;
         }
     }
 }
